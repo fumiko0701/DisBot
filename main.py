@@ -27,6 +27,7 @@ class BotApp(ttk.Window):
         
         # Configura a área de texto com fundo preto
         self.text_area = ScrolledText(frame, wrap=WORD, state=DISABLED, bg="black", fg="white", insertbackground="white", width=80, height=20)
+        
         self.text_area.pack(pady=20)
         
         # Botão para iniciar o bot

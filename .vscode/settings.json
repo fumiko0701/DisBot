@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "./mybot/src/image-functions",
+        "./mybot/data",
+        "./mybot/src/text-functions",
+        "./mybot/data/static"
+    ]
+}

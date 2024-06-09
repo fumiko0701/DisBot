@@ -1,0 +1,13 @@
+{
+    "membergest": [
+        "mute",
+        "unmute",
+        "kick",
+        "ban",
+        "unban"
+    ],
+    "outroCampo": [
+        "outroValor1",
+        "outroValor2"
+    ]
+}

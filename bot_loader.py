@@ -30,7 +30,6 @@ class BotApp(ttk.Window):
         
         # Configura a área de texto com fundo preto
         self.text_area = ScrolledText(frame, wrap=WORD, state=DISABLED, bg="black", fg="white", insertbackground="white", width=80, height=20)
-        
         self.text_area.pack(pady=20)
         
         # Botão para iniciar o bot
@@ -41,7 +40,6 @@ class BotApp(ttk.Window):
         self.stop_button = ttk.Button(frame, text="Stop", bootstyle=DANGER, command=self.stop_bot, state=DISABLED)
         self.stop_button.pack(side=LEFT, padx=5, pady=10)
 
-        
         # Lista para armazenar mensagens de erro
         self.error_output = []
         # Variável para armazenar o processo do bot
@@ -196,10 +194,11 @@ class BotApp(ttk.Window):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Por favor, forneça o diretório do projeto e o nome do bot como argumentos.")
+        print("Uso: python bot_loader.py <diretório> <nome_do_bot>")
         sys.exit(1)
-
+    
     directory = sys.argv[1]
     bot_name = sys.argv[2]
+
     app = BotApp(directory, bot_name)
     app.mainloop()

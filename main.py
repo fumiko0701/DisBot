@@ -8,45 +8,64 @@ from ttkbootstrap.constants import *
 class BotApp(ttk.Window):
     def __init__(self):
         super().__init__(themename="darkly")
-        self.title("Easy Bot Constructor")
-        self.geometry("800x600")
-        self.resizable(False, False)  # Bloqueia a configuração de redimensionamento da janela
+
+        # Obtem a largura e altura da tela
+        self.screen_width = self.winfo_screenwidth()
+        self.screen_height = self.winfo_screenheight()  # Adicione esta linha
         
+        # Define as proporções para a janela do aplicativo (ligeiramente menores)
+        self.window_width = int(self.screen_width * 0.44)
+        self.window_height = int(self.screen_height * 0.6)
+
+        # Centraliza a janela na tela
+        x_position = (self.screen_width - self.window_width) // 2
+        y_position = (self.screen_height - self.window_height) // 2
+
+        self.geometry(f"{self.window_width}x{self.window_height}+{x_position}+{y_position}")
+        self.title("Easy Bot Constructor")
+        self.resizable(False, False)  # Bloqueia a configuração de redimensionamento da janela
+
         # Cria um frame para o menu lateral
         sidebar_frame = ttk.Frame(self, padding="10 0", style="dark.TFrame")
-        sidebar_frame.pack(side="left", fill="y")
+        sidebar_frame.pack(side=LEFT, fill=Y)
 
         # Estilo para os botões da barra lateral
         style = ttk.Style()
-        style.configure("info.TButton", foreground="white", background="#2c2f33", font=("Arial", 12), bordercolor="#2c2f33")
+        style.configure("info.TButton", foreground="white", background="#0d141f", font=("Arial", 12), bordercolor="#0d141f")
+        style.map("info.TButton",
+                  foreground=[('pressed', 'white'), ('active', 'white')],
+                  background=[('pressed', '#23272a'), ('active', '#23272a')],
+                  bordercolor=[('pressed', '#2c2f33'), ('active', '#2c2f33')],
+                  relief=[('pressed', 'groove'), ('!pressed', 'gray')])
 
         # Adiciona seções ao menu lateral
         sections = ["Home", "Account", "Bots", "Settings", "Exit"]
-        for section_name in sections:
+        for idx, section_name in enumerate(sections):
             section_button = ttk.Button(sidebar_frame, text=section_name, style="info.TButton",
                                         command=lambda s=section_name: self.show_section(s))
-            section_button.pack(fill="x", pady=5)
+
+            section_button.pack(ipadx=15, ipady=1, pady=5, padx=10, fill=X)
 
         # Dicionário para armazenar os frames de conteúdo das seções
         self.section_content_frames = {}
 
-        # Variável para armazenar o selectbox
-        self.bot_dropdown = None
-
-        # Variável para armazenar o item selecionado no selectbox
-        self.selected_project = tk.StringVar()
-
         # Conteúdo inicial da seção "Home"
+        self.current_section = None
         self.show_section("Home")
 
     def show_section(self, section_name):
+        if self.current_section == section_name:
+            return
+
+        self.current_section = section_name
+
         # Limpa o conteúdo atual do frame de conteúdo da seção
         for frame in self.section_content_frames.values():
             frame.destroy()
 
         # Cria um frame para o conteúdo da seção
-        content_frame = ttk.Frame(self, padding="10", style="dark.TFrame")
-        content_frame.pack(side="right", fill="both", expand=True)
+        content_frame = ttk.Frame(self, padding="10")
+        content_frame.place(x=200, y=0, width=self.window_width - 200, height=self.window_height)
         self.section_content_frames[section_name] = content_frame
 
         # Mostra o conteúdo da seção selecionada
@@ -64,47 +83,41 @@ class BotApp(ttk.Window):
     def show_home_content(self, parent_frame):
         # Cria o conteúdo da seção "Home"
         home_content_label = ttk.Label(parent_frame, text="Bem-vindo à Home!", font=("Arial", 14))
-        home_content_label.pack(pady=20)
+        home_content_label.place(x=20, y=20)
 
     def show_account_content(self, parent_frame):
         # Cria o conteúdo da seção "Account"
         account_content_label = ttk.Label(parent_frame, text="Bem-vindo à Conta!", font=("Arial", 14))
-        account_content_label.pack(pady=20)
+        account_content_label.place(x=20, y=20)
 
     def show_bots_content(self, parent_frame):
         # Cria o conteúdo da seção "Bots"
-        bots_content_frame = ttk.Frame(parent_frame, style="dark.TFrame")
-        bots_content_frame.pack(side="top", fill="both", expand=True)
+        select_label = ttk.Label(parent_frame, text="Selecione o seu projeto:", font=("Arial", 12), background="", foreground="white")
 
-        select_label = ttk.Label(bots_content_frame, text="Selecione o seu projeto:", font=("Arial", 12), padding="0 10", style="light.TLabel")
-        select_label.pack()
+        select_label.place(relx=0.05, rely=0.05)
 
         # Verifica os diretórios para obter os projetos mybot
         bot_projects = [d for d in os.listdir() if os.path.isdir(d) and "mybot" in d]
 
         if bot_projects:
-            # Cria um frame interno para alinhar a Combobox e o status_label
-            combobox_frame = ttk.Frame(bots_content_frame, style="dark.TFrame")
-            combobox_frame.pack(pady=5)
-
             # Cria a caixa de seleção com os projetos mybot
-            self.bot_dropdown = ttk.Combobox(combobox_frame, values=bot_projects, state="readonly", textvariable=self.selected_project, width=30)
-            self.bot_dropdown.grid(row=0, column=0, padx=5)
+            self.selected_project = tk.StringVar()
+            self.bot_dropdown = ttk.Combobox(parent_frame, values=bot_projects, state="readonly", textvariable=self.selected_project, width=30)
+            self.bot_dropdown.place(relx=0.05, rely=0.1)
 
             # Label para exibir a mensagem de status
-            self.status_label = ttk.Label(combobox_frame, font=("Arial", 14), padding="0 10")
-            self.status_label.grid(row=0, column=1, padx=5)
+            self.status_label = ttk.Label(parent_frame, font=("Arial", 14), padding="0 10")
+            self.status_label.place_forget()
 
             # Botão para editar o bot
-            self.edit_button = ttk.Button(bots_content_frame, text="Editar Bot", style="info.TButton", command=self.show_edit_sidebar)
-            self.edit_button.place(x=500, y=520)  # Alinha o botão no canto inferior direito
+            self.edit_button = ttk.Button(parent_frame, text="Editar Bot", style="info.TButton", command=self.show_edit_sidebar)
             self.edit_button.place_forget()  # Esconde o botão "Editar Bot" inicialmente
 
             self.bot_dropdown.bind("<<ComboboxSelected>>", self.check_bot_settings)  # Verifica os arquivos ao selecionar um projeto
         else:
             # Se não houver projetos mybot encontrados
-            no_bot_label = ttk.Label(bots_content_frame, text="Nenhum projeto mybot encontrado.", font=("Arial", 14))
-            no_bot_label.pack(pady=20)
+            no_bot_label = ttk.Label(parent_frame, text="Nenhum projeto mybot encontrado.", font=("Arial", 14))
+            no_bot_label.place(relx=0.05, rely=0.1)
 
     def check_bot_settings(self, event=None):
         # Verifica se existem os arquivos bot.py e settings.json dentro do projeto mybot selecionado
@@ -116,15 +129,16 @@ class BotApp(ttk.Window):
             bot_py_exists = os.path.exists(bot_py_path)
             settings_exists = os.path.exists(settings_path)
 
-            if bot_py_exists and settings_exists:
+            if bot_py_exists & settings_exists:
                 # Substitui o status_label por um botão "Pronto"
-                self.status_label.grid_forget()
-                self.ready_button = ttk.Button(self.status_label.master, text="Pronto", style="success.TButton",
+                self.status_label.place_forget()
+                self.ready_button = ttk.Button(self, text="Pronto", style="success.TButton",
                                                command=lambda: self.run_bot_app(selected_project, settings_path))
-                self.ready_button.grid(row=0, column=1, padx=5)
-                self.edit_button.place(x=500, y=520)  # Mostra o botão "Editar Bot" no canto inferior direito
+                self.ready_button.place(relx=0.525, rely=0.112)
+                self.edit_button.place(relx=0.80, rely=0.9)  # Mostra o botão "Editar Bot"
             else:
-                self.status_label.config(text="Erro", background="#dc3545", foreground="white")
+                self.status_label.config(text="Erro: Arquivo bot.py ou settings.json não encontrado", background="#4d0702", foreground="white")
+                self.status_label.place(relx=0.6, rely=0.1)
                 self.edit_button.place_forget()  # Esconde o botão "Editar Bot" se houver erro
 
     def run_bot_app(self, directory, settings_path):
@@ -138,46 +152,81 @@ class BotApp(ttk.Window):
         subprocess.Popen(command, shell=True)
 
     def show_edit_sidebar(self):
-        self.edit_sidebar = ttk.Frame(self, padding="10", style="dark.TFrame")
-        self.edit_sidebar.place(x=500, y=0, relheight=1, width=400)  # Inicialmente posiciona a barra fora da tela à direita
+        # Desativa a Combobox e os botões "Pronto" e "Editar Bot"
+        self.bot_dropdown.config(state="disabled")
+        self.ready_button.config(state=tk.DISABLED)
+        self.edit_button.config(state=tk.DISABLED)
 
+        self.edit_sidebar = ttk.Frame(self, padding="10", style="dark.TFrame")
+        self.edit_sidebar.place(x=self.window_width, y=0, width=400, height=self.window_height)
+
+        # Botão para fechar a barra lateral de edição
+        close_button = ttk.Button(self.edit_sidebar, text="X", style="danger.TButton", command=self.hide_edit_sidebar)
+        close_button.place(x=360, y=8, width=34, height=34)
+
+        # Adiciona campos de entrada na barra lateral de edição
         selected_project = self.selected_project.get()
         settings_path = os.path.join(selected_project, "data", "static", "settings.json")
-        print("[LENDO] Caminho do arquivo settings.json:", settings_path)  # Adiciona este print statement
-
-        # Lê os dados do arquivo settings.json
         with open(settings_path, 'r') as f:
             settings = json.load(f)
 
-        # Campos para editar as informações do bot
         self.fields = {
             "Nome do Bot": settings.get("botName", ""),
-            "Bot Token": settings.get("clientID", ""),
-            "Prefixo": settings.get("prefix", ""),
-            "ID do Dono": settings.get("ownerID", "")
+            "Bot Token": settings.get("botToken", "")
         }
 
-        self.entries = {}
+        for idx, (label_text, value) in enumerate(self.fields.items()):
+            label = ttk.Label(self.edit_sidebar, text=label_text, font=("Arial", 12))
+            label.place(x=20, y=60 + (idx * 40))
 
-        # Adiciona os campos na barra lateral de edição e preenche com os valores atuais
-        for idx, (label, value) in enumerate(self.fields.items()):
-            ttk.Label(self.edit_sidebar, text=label, font=("Arial", 12)).grid(row=idx, column=0, padx=5, pady=5, sticky="w")
-            entry = ttk.Entry(self.edit_sidebar, width=30)
+            entry = ttk.Entry(self.edit_sidebar, font=("Arial", 12))
             entry.insert(0, value)
-            entry.grid(row=idx, column=1, padx=5, pady=5)
-            self.entries[label] = entry
+            entry.place(x=150, y=60 + (idx * 40), width=200)
+            self.fields[label_text] = entry
 
-        # Botão para salvar alterações
-        save_button = ttk.Button(self.edit_sidebar, text="Salvar Alterações", style="success.TButton", command=self.save_changes)
-        save_button.grid(row=len(self.fields), column=0, columnspan=2, pady=10)
+        # Botão para salvar as alterações
+        save_button = ttk.Button(self.edit_sidebar, text="Salvar", style="success.TButton",
+                                 command=lambda: self.save_settings(selected_project, settings_path))
+        save_button.place(x=150, y=300, width=100)
 
-        # Animação suave da barra lateral
-        self.animate_sidebar(800, 300, 20)
+        # Anima a barra lateral de edição (efeito deslizante)
+        self.animate_sidebar(self.edit_sidebar, direction="in")
 
-    def animate_sidebar(self, start_x, end_x, step):
-        if start_x > end_x:
-            self.edit_sidebar.place(x=start_x, y=0, relheight=1, width=400)
-            self.after(10, self.animate_sidebar, start_x - step, end_x, step)
+    def hide_edit_sidebar(self):
+        # Ativa a Combobox e os botões "Pronto" e "Editar Bot"
+        self.bot_dropdown.config(state="readonly")
+        self.ready_button.config(state=tk.NORMAL)
+        self.edit_button.config(state=tk.NORMAL)
+
+        # Anima a barra lateral de edição (efeito deslizante)
+        self.animate_sidebar(self.edit_sidebar, direction="out")
+
+    def save_settings(self, project_directory, settings_path):
+        # Obtém os valores dos campos de entrada
+        updated_settings = {label: entry.get() for label, entry in self.fields.items()}
+
+        # Atualiza o arquivo settings.json
+        with open(settings_path, 'r+') as f:
+            settings = json.load(f)
+            settings.update(updated_settings)
+            f.seek(0)
+            json.dump(settings, f, indent=4)
+            f.truncate()
+
+        # Oculta a barra lateral de edição após salvar
+        self.hide_edit_sidebar()
+
+    def animate_sidebar(self, sidebar, direction="in"):
+        if direction == "in":
+            for x in range(self.window_width, self.window_width - 400, -10):
+                sidebar.place(x=x, y=0)
+                sidebar.update()
+        elif direction == "out":
+            for x in range(self.window_width - 400, self.window_width, 10):
+                sidebar.place(x=x, y=0)
+                sidebar.update()
+            sidebar.destroy()
+
 
     def save_changes(self):
         selected_project = self.selected_project.get()
@@ -211,17 +260,17 @@ class BotApp(ttk.Window):
 
         # Exibe uma mensagem de sucesso na barra lateral de edição
         success_label = ttk.Label(self.edit_sidebar, text="Alterações salvas com sucesso!", font=("Arial", 14), style="success.TLabel")
-        success_label.grid(row=len(self.fields) + 1, column=0, columnspan=2, pady=10)
+        success_label.place(x=10, y=260, width=380, height=30)
 
     def show_settings_content(self, parent_frame):
         # Cria o conteúdo da seção "Settings"
         settings_content_label = ttk.Label(parent_frame, text="Bem-vindo às Configurações!", font=("Arial", 14))
-        settings_content_label.pack(pady=20)
+        settings_content_label.place(x=20, y=20)
 
     def show_exit_content(self, parent_frame):
         # Cria o conteúdo da seção "Exit"
         exit_content_label = ttk.Label(parent_frame, text="Saindo...", font=("Arial", 14))
-        exit_content_label.pack(pady=20)
+        exit_content_label.place(x=20, y=20)
         self.after(2000, self.quit)  # Sai do aplicativo após 2 segundos
 
 if __name__ == "__main__":

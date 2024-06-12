@@ -7,6 +7,8 @@ import re
 import os
 import sys
 import psutil
+from datetime import datetime, timedelta #contagem
+ 
 
 # Mapeamento de sequências de escape ANSI para cores tkinter
 ANSI_COLORS = {
@@ -22,6 +24,22 @@ class BotApp(ttk.Window):
         self.title(f"Executando {bot_name}")
         self.geometry("800x600")
         
+
+        # Adiciona este bloco
+        # Obtém a resolução da tela
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+
+        # Calcula a posição central
+        window_width = 800
+        window_height = 600
+        position_right = int(screen_width / 2 - window_width / 2)
+        position_down = int(screen_height / 2 - window_height / 2)
+
+        # Define a geometria da janela usando a posição central
+        self.geometry(f"{window_width}x{window_height}+{position_right}+{position_down}")
+        # Fim do bloco adicionado
+
         self.directory = directory  # Armazena o diretório do projeto selecionado
         
         # Cria um frame para centralizar os widgets
@@ -45,6 +63,22 @@ class BotApp(ttk.Window):
         # Variável para armazenar o processo do bot
         self.proc = None
     
+            # Adicionando a legenda para o tempo de execução =================================
+        self.runtime_label = ttk.Label(self, text="Tempo de execução: 00:00:00", foreground="white")
+        self.runtime_label.place(relx=0.5, rely=0.05, anchor=CENTER)
+        self.start_time = None  # Hora de início da execução do bot
+        self.update_runtime()
+
+    
+    def update_runtime(self):
+        # Atualiza o tempo de execução
+        if self.start_time is not None:
+            elapsed_time = datetime.now() - self.start_time
+            formatted_time = str(elapsed_time).split('.')[0]  # Ignora os milissegundos
+            self.runtime_label.config(text=f"Tempo de execução: {formatted_time}")
+        self.after(1000, self.update_runtime)  # Atualiza a cada segundo
+
+
     def start_bot(self):
         # Limpa a área de texto
         self.clear_text()
@@ -103,6 +137,8 @@ class BotApp(ttk.Window):
         self.wait_thread = threading.Thread(target=self.wait_for_process)
         self.wait_thread.start()
 
+        self.start_time = datetime.now() #contagem
+
     def stop_bot(self):
         if self.proc:
             # Força o término imediato do processo do bot e seus subprocessos
@@ -122,6 +158,8 @@ class BotApp(ttk.Window):
             self.start_button.config(state=NORMAL)
             # Desativa o botão de parada
             self.stop_button.config(state=DISABLED)
+
+        self.start_time = None
 
     def stream_output(self, stream, stream_name, output_list=None):
         for line in iter(lambda: stream.readline(), ''):
@@ -185,6 +223,7 @@ class BotApp(ttk.Window):
         
         # Verifica se o processo ainda existe antes de acessar `returncode`
         if self.proc and self.proc.returncode == 0:
+            self.start_time = None #finaliza contagem
             self.append_text("\nO bot.py foi executado com sucesso!\n")
         elif self.proc:
             self.append_text("\nO bot.py encontrou um erro durante a execução.\n", stderr=True)

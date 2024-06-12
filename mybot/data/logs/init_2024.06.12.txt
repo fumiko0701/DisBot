@@ -1,0 +1,91 @@
+[2024-06-12 09:57:07] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-12
+Hora de inicializao: 09:57:07
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-12 09:57:07] Loaded extension: src.commands.admin
+[2024-06-12 09:57:07] Loaded extension: src.commands.fun
+[2024-06-12 09:57:07] Loaded extension: src.commands.general
+[2024-06-12 09:57:08] Loaded extension: src.commands.image
+[2024-06-12 09:57:08] Loaded extension: src.commands.moderation
+[2024-06-12 09:59:41] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-12
+Hora de inicializao: 09:59:41
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-12 09:59:41] Loaded extension: src.commands.admin
+[2024-06-12 09:59:41] Loaded extension: src.commands.fun
+[2024-06-12 09:59:41] Loaded extension: src.commands.general
+[2024-06-12 09:59:42] Loaded extension: src.commands.image
+[2024-06-12 09:59:42] Loaded extension: src.commands.moderation
+[2024-06-12 10:02:41] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-12
+Hora de inicializao: 10:02:41
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-12 10:02:41] Loaded extension: src.commands.admin
+[2024-06-12 10:02:41] Loaded extension: src.commands.fun
+[2024-06-12 10:02:41] Loaded extension: src.commands.general
+[2024-06-12 10:02:42] Loaded extension: src.commands.image
+[2024-06-12 10:02:42] Loaded extension: src.commands.moderation
+[2024-06-12 10:07:14] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-12
+Hora de inicializao: 10:07:14
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-12 10:07:14] Loaded extension: src.commands.admin
+[2024-06-12 10:07:14] Loaded extension: src.commands.fun
+[2024-06-12 10:07:14] Loaded extension: src.commands.general
+[2024-06-12 10:07:15] Loaded extension: src.commands.image
+[2024-06-12 10:07:15] Loaded extension: src.commands.moderation
+[2024-06-12 10:14:19] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-12
+Hora de inicializao: 10:14:19
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-12 10:14:19] Loaded extension: src.commands.admin
+[2024-06-12 10:14:19] Loaded extension: src.commands.fun
+[2024-06-12 10:14:19] Loaded extension: src.commands.general
+[2024-06-12 10:14:20] Loaded extension: src.commands.image
+[2024-06-12 10:14:20] Loaded extension: src.commands.moderation
+[2024-06-12 10:15:27] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-12
+Hora de inicializao: 10:15:27
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-12 10:15:27] Loaded extension: src.commands.admin
+[2024-06-12 10:15:27] Loaded extension: src.commands.fun
+[2024-06-12 10:15:27] Loaded extension: src.commands.general
+[2024-06-12 10:15:28] Loaded extension: src.commands.image
+[2024-06-12 10:15:28] Loaded extension: src.commands.moderation
+[2024-06-12 10:15:32] [ERRO] Na execuo de um comando: Command raised an exception: TypeError: IMAGE_admin.draw_menu() missing 1 required positional argument: 'username'

@@ -10,15 +10,24 @@ class Moderation(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    @commands.cooldown(6, 10, commands.BucketType.user) # 6 usos a cada 10 segundos por usuario
+    @commands.cooldown(6, 10, commands.BucketType.user)
     async def banWord(self, ctx, *, word):
-        uid = ctx.author.id  # pegar o id do usuário
-        if uid == ownerID:  # se o usuário for o dono
-            palavras_ofensivas = text_Admin.get.blacklisted_words() # PALAVRAS PROIBIDAS
-            if word not in palavras_ofensivas:  # se a nova palavra não estiver na lista
-                text_Admin.save.blacklisted_word(palavras_ofensivas, word, uid)  # salvando a palavra proibida
+        """
+        Adiciona uma palavra à lista de palavras banidas.
+
+        Parâmetros:
+        - word (str): A palavra a ser banida.
+
+        Restrições:
+        - Apenas o proprietário do bot pode usar este comando.
+        """
+        uid = ctx.author.id
+        if uid == ownerID:
+            palavras_ofensivas = text_Admin.get.blacklisted_words()
+            if word not in palavras_ofensivas:
+                text_Admin.save.blacklisted_word(palavras_ofensivas, word, uid)
                 await ctx.send(f"A palavra '{word}' foi adicionada à lista de palavras banidas.")
-            else:  # se a palavra já estiver na lista
+            else:
                 await ctx.send(f"A palavra '{word}' já está na lista de palavras banidas.")
         else:
             await ctx.send("Você não tem permissão para usar este comando.")

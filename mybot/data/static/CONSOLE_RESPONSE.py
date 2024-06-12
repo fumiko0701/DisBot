@@ -122,10 +122,12 @@ class Console:
             agora = datetime.now()
             horarioFormatado = agora.strftime("%Y-%m-%d")  # formatei
             dataFormatada = agora.strftime("%H:%M:%S")  # HORA
-            await ctx.send("Bot entrando em modo de repouso...")
+            
             #await ctx.bot.close()
             log_message = f"{Fore.BLACK}| {Fore.BLUE}{horarioFormatado} {Fore.BLACK}| {Fore.BLUE}{dataFormatada} {Fore.BLACK}| {Fore.GREEN}#[{Fore.LIGHTYELLOW_EX}SISTEMA{Fore.GREEN}]# {Fore.YELLOW}Pedido de desligamento recebido! Desligando...{Style.RESET_ALL}"
             print(log_message)
             self.write_to_log(log_message.strip())
+            
+            return True, "Bot entrando em modo de repouso..."
         else:
-            await ctx.send("Apenas meu dono pode usar essa função!")
+            return False, "Apenas meu dono pode usar essa função!"

@@ -26,7 +26,7 @@ client = commands.Bot(command_prefix=getPrefix(), intents=intents)
 settings = get_settings()
 prefixo = settings['prefix']  # carreguei o prefixo
 ownerID = settings['ownerID']  # id do dono
-clientID = settings['clientID']  # carreguei o token
+botToken = settings['botToken']  # carreguei o token
 
 console = Console()  # meu console
 #=======CONFIGURAÇÕES INICIAS, FIM ==========
@@ -91,6 +91,15 @@ async def reload(ctx, extension):
     await client.reload_extension(f'src.commands.{extension}')
     await ctx.send(f'{extension} recarregado.')
 
+@client.command(hidden=True)
+async def sleep(ctx):
+    success, response = await console.sleep(ctx)  # Adicione o await aqui
+    await ctx.send(response)
+    if success:
+        await ctx.bot.close()  # Aguarde o fechamento do bot
+
+
+
 @client.command()
 async def setprefix(ctx, prefix: str):
     uid = ctx.author.id
@@ -105,20 +114,24 @@ async def setprefix(ctx, prefix: str):
 
 @client.event
 async def on_message(message):
-    if message.author.bot:  # ignorando mensagens de outros bots
+    global prefixo
+
+    if message.author.bot: #ignorando mensagems de outros bots
         return
 
     if message.author != client.user:
         global prefixo
-        client.command_prefix = commands.when_mentioned_or(prefixo)  # muda o prefixo dinamicamente para a mensagem
-        if not (text_Admin.get.blacklisted_words(message.content)):  # se não for mensagem banida
-            await client.process_commands(message)  # continua lendo
-        else:  # se for mensagem banida
-            verificar = message.content.split()  # parte a mensagem em pedaços
-            if verificar[0] == prefixo + "banWord":  # verifica se ela é o comando de banir palavras
-                await client.process_commands(message)  # se for, continua lendo
-            else:  # se não for, realmente bloqueia a mensagem
-                console.log('badword', message.author)  # posso passar True ou False como um ultimo parametro, para mensagem especial
+        #if message.content.startswith(prefixo): #verifica o prefixo                                          #AINDA PRECISO DISSO?
+        client.command_prefix = commands.when_mentioned_or(prefixo) #muda o prefixo dinamicamente para a mensagem #AINDA PRECISO DISSO?
+        if not(text_Admin.get.blacklisted_words(message.content)): # se não for mensagem banida
+            await client.process_commands(message) #continua lendo
+        else: #se for mensagem banida
+            verificar = message.content.split() #parte a mensagem em pedaços
+            if verificar[0] == prefixo+"banWord": #verifica se ela é o comando de banir palavras
+                await client.process_commands(message) #se for, continua lendo
+            else: # se não for, realmente bloqueia a mensagem
+                console.log('badword', message.author) #posso passar True ou False como um ultimo parametro, para mensagem especial
+
                 try:
                     await message.delete()
                 except discord.errors.Forbidden as e:
@@ -126,6 +139,7 @@ async def on_message(message):
                     print("Por favor, adicione as permissões necessárias.")
                 except Exception as e:
                     print(f"Ocorreu um erro INESPERADO ao tentar apagar a mensagem: {e}")
+
 
 # Custom help command to display help for setprefix command
 class CustomHelpCommand(commands.DefaultHelpCommand):
@@ -155,4 +169,4 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
 
 client.help_command = CustomHelpCommand()
 
-client.run(clientID)  # fim da linha, vou ter que rodar, huehuehuehe
+client.run(botToken)  # fim da linha, vou ter que rodar, huehuehuehe

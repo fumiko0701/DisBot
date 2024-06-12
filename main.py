@@ -162,7 +162,7 @@ class BotApp(ttk.Window):
 
         # Botão para fechar a barra lateral de edição
         close_button = ttk.Button(self.edit_sidebar, text="X", style="danger.TButton", command=self.hide_edit_sidebar)
-        close_button.place(x=360, y=8, width=34, height=34)
+        close_button.place(x=330, y=2, width=32, height=32)
 
         # Adiciona campos de entrada na barra lateral de edição
         selected_project = self.selected_project.get()
@@ -172,25 +172,29 @@ class BotApp(ttk.Window):
 
         self.fields = {
             "Nome do Bot": settings.get("botName", ""),
-            "Bot Token": settings.get("botToken", "")
+            "Bot Token": settings.get("botToken", ""),
+            "Prefixo": settings.get("prefix", ""),
+            "ID do Dono": settings.get("ownerID", "")
         }
 
         for idx, (label_text, value) in enumerate(self.fields.items()):
-            label = ttk.Label(self.edit_sidebar, text=label_text, font=("Arial", 12))
-            label.place(x=20, y=60 + (idx * 40))
+            ###select_label = ttk.Label(parent_frame, text="Selecione o seu projeto:", font=("Arial", 12), background="", foreground="white")
+            label = ttk.Label(self.edit_sidebar, text=label_text, font=("Arial", 10), background="dark gray", foreground="white")  # Reduzindo o tamanho da letra
+            label.place(x=20, y=45 + (idx * 35))  # Ajustando a posição vertical para mais espaço
 
-            entry = ttk.Entry(self.edit_sidebar, font=("Arial", 12))
+            entry = ttk.Entry(self.edit_sidebar, font=("Arial", 9))  # Reduzindo o tamanho da letra
             entry.insert(0, value)
-            entry.place(x=150, y=60 + (idx * 40), width=200)
+            entry.place(x=130, y=40 + (idx * 35), width=230, height=30)  # Reduzindo o tamanho dos campos de entrada
             self.fields[label_text] = entry
 
         # Botão para salvar as alterações
-        save_button = ttk.Button(self.edit_sidebar, text="Salvar", style="success.TButton",
-                                 command=lambda: self.save_settings(selected_project, settings_path))
-        save_button.place(x=150, y=300, width=100)
+        save_button = ttk.Button(self.edit_sidebar, text="Salvar Alterações", style="success.TButton",
+                                command=lambda: self.save_settings(selected_project, settings_path))
+        save_button.place(x=20, y=250, width=360, height=30)  # Ajustando a posição vertical para mais espaço
 
         # Anima a barra lateral de edição (efeito deslizante)
         self.animate_sidebar(self.edit_sidebar, direction="in")
+
 
     def hide_edit_sidebar(self):
         # Ativa a Combobox e os botões "Pronto" e "Editar Bot"
@@ -205,13 +209,28 @@ class BotApp(ttk.Window):
         # Obtém os valores dos campos de entrada
         updated_settings = {label: entry.get() for label, entry in self.fields.items()}
 
-        # Atualiza o arquivo settings.json
-        with open(settings_path, 'r+') as f:
-            settings = json.load(f)
-            settings.update(updated_settings)
-            f.seek(0)
-            json.dump(settings, f, indent=4)
-            f.truncate()
+        # Carrega as configurações existentes do arquivo settings.json
+        with open(settings_path, 'r') as f:
+            existing_settings = json.load(f)
+
+        # Atualiza apenas as chaves existentes no arquivo settings.json com os novos valores dos campos de entrada
+        for label, value in updated_settings.items():
+            original_key = None
+            if label == "Nome do Bot":
+                original_key = "botName"
+            elif label == "Bot Token":
+                original_key = "botToken"
+            elif label == "Prefixo":
+                original_key = "prefix"
+            elif label == "ID do Dono":
+                original_key = "ownerID"
+
+            if original_key and original_key in existing_settings:  # Verifica se a chave existe no arquivo existente
+                existing_settings[original_key] = value
+
+        # Salva as alterações de volta no arquivo settings.json
+        with open(settings_path, 'w') as f:
+            json.dump(existing_settings, f, indent=4)
 
         # Oculta a barra lateral de edição após salvar
         self.hide_edit_sidebar()

@@ -9,13 +9,6 @@ class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def clear(self, ctx, amount=5):
-        if ctx.author.guild_permissions.manage_messages:
-            await ctx.channel.purge(limit=amount)
-            await ctx.send(f'{amount} mensagens foram deletadas', delete_after=5)
-        else:
-            await ctx.send("Você não tem permissão para usar este comando.")
 
     @commands.command()
     async def addrole(self, ctx, member: discord.Member, role: discord.Role):

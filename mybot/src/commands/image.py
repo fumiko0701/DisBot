@@ -13,6 +13,9 @@ class Image(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 20, commands.BucketType.user) # 1 uso a cada 20 segundos por usuario
     async def avatar(self, ctx):
+        """
+        Atualmente apenas para fins de configuração e de testes...
+        """
         author = ctx.message.author
         avatar_url = author.avatar.url
         username = author.global_name

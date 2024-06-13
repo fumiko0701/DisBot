@@ -7,6 +7,9 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx):
+        """
+        Pong!
+        """
         await ctx.send("Pong!")
 
 async def setup(bot):

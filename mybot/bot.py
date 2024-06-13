@@ -1,12 +1,14 @@
-#=======CONFIGURAÇÕES INICIAS, INICIO ==========
-import sys  # usando path para importações OU NÃO
-import os  # usando relações de caminho para importações
-from src import command_loader  # carrega tudo
+import sys
+import os
+import asyncio
+import sqlite3
 
 import discord
 from discord.ext import commands
 
-#===MEUS IMPORTS======================================================================
+from src import command_loader
+
+#===MEUS IMPORTS====INICIO==================================================================
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src/text-functions'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src/image-functions'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'data/static'))
@@ -15,29 +17,53 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'data'))
 from UTILS import *
 from CONSOLE_RESPONSE import Console
 from MESSAGE_ADMIN import TEXT_admin as text_Admin
-#===MEUS IMPORTS======================================================================
+#===MEUS IMPORTS====FIM=====================================================================
 intents = discord.Intents.default()
-intents.members = True
-intents.message_content = True
-intents.guild_messages = True
-
-client = commands.Bot(command_prefix=getPrefix(), intents=intents)
+intents.members = True; intents.message_content = True; intents.guild_messages = True
 
 settings = get_settings()
-prefixo = settings['prefix']  # carreguei o prefixo
-ownerID = settings['ownerID']  # id do dono
-botToken = settings['botToken']  # carreguei o token
+prefixo = settings['prefix']; ownerID = settings['ownerID']; botToken = settings['botToken']
 
-console = Console()  # meu console
-#=======CONFIGURAÇÕES INICIAS, FIM ==========
+console = Console()
+client = commands.Bot(command_prefix=getPrefix(), intents=intents, owner_id=ownerID)
+
+def iniciar_db():
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        user_id INTEGER UNIQUE,
+                        user_name TEXT
+                    )''')
+    
+    conn.commit()
+    conn.close()
+
+def db_add_user(user_id, user_name):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''INSERT OR IGNORE INTO users (user_id, user_name) 
+                      VALUES (?, ?)''', (user_id, user_name))
+    
+    conn.commit()
+    conn.close()
+
+def is_bot_owner():
+    async def predicate(ctx):
+        if ctx.author.id != ctx.bot.owner_id:
+            raise commands.NotOwner("Apenas o proprietário do bot pode usar este comando.")
+        return True
+    return commands.check(predicate)
 
 @client.event
 async def on_ready():
+    iniciar_db()
     await client.tree.sync()
     console.start(settings)
     await command_loader.load_all(client)
 
-    # Verifica se todas as extensões foram carregadas com sucesso
     loaded_successfully = True
     for extension in client.extensions:
         if not client.extensions[extension]:
@@ -47,90 +73,147 @@ async def on_ready():
     if loaded_successfully:
         console.log(f"initload")
 
+class CommandNotFoundError(commands.CommandError):
+    def __init__(self, command):
+        self.command = command
+        super().__init__(f'Comando {command} não encontrado') #repassando mensagem de erro
+
 @client.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound):
-        await ctx.send(f"🫠 **Comando não encontrado**. Use __**{prefixo}menu**__ para ver a lista de comandos disponíveis.", delete_after=10)
+    if isinstance(error, CommandNotFoundError):
+        message = await ctx.send(f"🫠 **Comando não encontrado**. Use __**{prefixo}menu**__ para ver a lista de comandos disponíveis.")
+        await asyncio.sleep(10)
+        await message.delete()
+    elif isinstance(error, commands.CommandNotFound):
+        message = await ctx.send(f"🫠 **Comando não encontrado**. Use __**{prefixo}menu**__ para ver a lista de comandos disponíveis.")
+        await asyncio.sleep(10)
+        await message.delete()
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("🤨 Você não forneceu todos os argumentos necessários. Por favor, verifique o comando e tente novamente.", delete_after=10)
+        message = await ctx.send("🤨 Você não forneceu todos os argumentos necessários. Por favor, verifique o comando e tente novamente.")
+        await asyncio.sleep(10)
+        await message.delete()
     elif isinstance(error, commands.BadArgument):
-        await ctx.send("😶 Um dos argumentos fornecidos é inválido. Por favor, verifique o comando e tente novamente.", delete_after=10)
+        message = await ctx.send("😶 Um dos argumentos fornecidos é inválido. Por favor, verifique o comando e tente novamente.")
+        await asyncio.sleep(10)
+        await message.delete()
     elif isinstance(error, commands.CommandOnCooldown):
         try:
             await ctx.message.delete()
         except discord.errors.DiscordException as e:
             console.log('except', e)
-        await ctx.send(f"⏳ Este comando está em **cooldown**. Tente novamente em {error.retry_after:.2f} segundos.", delete_after=10)
+        message = await ctx.send(f"⏳ Este comando está em **cooldown**. Tente novamente em {error.retry_after:.2f} segundos.")
+        await asyncio.sleep(10)
+        await message.delete()
     elif isinstance(error, commands.NotOwner):
-        await ctx.send("🍡 Apenas o proprietário do bot pode usar este comando.", delete_after=10)
+        message = await ctx.send("🍡 Apenas o proprietário do bot pode usar este comando.")
+        await asyncio.sleep(10)
+        await message.delete()
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send(f"Você não tem permissão para executar esse comando: {ctx.command.name}, use `{prefixo}help {ctx.command.name}` para mais informações.", delete_after=10)
+        message = await ctx.send(f"Você não tem permissão para usar esse comando: __{ctx.command.name}__.")
+        await asyncio.sleep(10)
+        await message.delete()
     elif isinstance(error, commands.BotMissingPermissions):
-        await ctx.send(f"Eu não tenho permissão para executar esse comando: {ctx.command.name}, use `{prefixo}help {ctx.command.name}` para mais informações.", delete_after=10)
+        message = await ctx.send(f"Eu não tenho permissão para usar esse comando: __{ctx.command.name}__.")
+        await asyncio.sleep(10)
+        await message.delete()
     elif isinstance(error, commands.DisabledCommand):
-        await ctx.send("🥲 Este comando está desativado.", delete_after=10)
+        message = await ctx.send("🥲 Este comando está desativado.")
+        await asyncio.sleep(10)
+        await message.delete()
     elif isinstance(error, commands.CommandInvokeError):
         console.runlog(f"[ERRO] Na execução de um comando: {error}")
-        await ctx.send(f"😬 Ocorreu um erro ao tentar executar o comando: ||| Uma mensagem foi enviada ao meu criador! ||| Por favor, tente novamente mais tarde.", delete_after=10)
+        message = await ctx.send(f"😬 Ocorreu um erro ao tentar executar o comando: ||| Uma mensagem foi enviada ao meu criador! ||| Por favor, tente novamente mais tarde.")
+        await asyncio.sleep(10)
+        await message.delete()
     else:
         console.runlog(f"[ERRO] Na execução de um comando: {error}")
-        await ctx.send(f"😬 Ocorreu um erro desconhecido: ||| Uma mensagem foi enviada ao meu criador! ||| Por favor, tente novamente mais tarde.", delete_after=10)
+        message = await ctx.send(f"😬 Ocorreu um erro desconhecido: ||| Uma mensagem foi enviada ao meu criador! ||| Por favor, tente novamente mais tarde.")
+        await asyncio.sleep(10)
+        await message.delete()
+
 
 @client.command(hidden=True)
+@is_bot_owner()
 async def load(ctx, extension):
     await client.load_extension(f'src.commands.{extension}')
     await ctx.send(f'{extension} carregado.')
 
 @client.command(hidden=True)
+@is_bot_owner()
 async def unload(ctx, extension):
     await client.unload_extension(f'src.commands.{extension}')
     await ctx.send(f'{extension} descarregado.')
 
 @client.command(hidden=True)
+@is_bot_owner()
 async def reload(ctx, extension):
     await client.reload_extension(f'src.commands.{extension}')
-    await ctx.send(f'{extension} recarregado.')
+    nomeCapitalized = extension.capitalize()
+    await ctx.send(f'Olá papis! O pacote **{nomeCapitalized}** foi recarregado.')
 
 @client.command(hidden=True)
+@is_bot_owner()
 async def sleep(ctx):
-    success, response = await console.sleep(ctx)  # Adicione o await aqui
+    success, response = await console.sleep(ctx)
     await ctx.send(response)
     if success:
-        await ctx.bot.close()  # Aguarde o fechamento do bot
-
-
+        await ctx.bot.close()
 
 @client.command()
 async def setprefix(ctx, prefix: str):
+    """
+    Altera o prefixo do bot para esse servidor.
+
+    **Restrições:**
+    - Apenas membros com a permissão ||Administrador|| podem usar.
+    """
     uid = ctx.author.id
-    success, new_prefix = setPrefix(prefix, uid, ownerID)  # mudando prefixo atual, checando user id e owner id através das settings
+    success, new_prefix = setPrefix(prefix, uid, ownerID)
     if success:
-        global prefixo  # vou alterar a variável global
-        prefixo = new_prefix  # atualiza a variável global prefixo através do resultado da setPrefix()
+        global prefixo
+        prefixo = new_prefix
         await ctx.send(f"Prefixo atualizado para: '{new_prefix}'")
-        console.log('prefix', new_prefix, 'user', ctx.author.name)  # gera console de alteração de prefixo sucedido
+        console.log('prefix', new_prefix, 'user', ctx.author.name)
     else:
         await ctx.send("Apenas meu dono pode usar esse comando!")
+
+@client.command()
+async def list_users(ctx):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('SELECT user_id, user_name FROM users')
+    rows = cursor.fetchall()
+    
+    if rows:
+        user_list = '\n'.join([f"ID: {row[0]}, Nome: {row[1]}" for row in rows]) #lista de usuarios
+        await ctx.send(f"Usuários registrados:\n{user_list}")
+    else:
+        await ctx.send("Nenhum usuário registrado.")
+    
+    conn.close()
+
 
 @client.event
 async def on_message(message):
     global prefixo
 
-    if message.author.bot: #ignorando mensagems de outros bots
+    if message.author.bot:
         return
 
     if message.author != client.user:
-        global prefixo
-        #if message.content.startswith(prefixo): #verifica o prefixo                                          #AINDA PRECISO DISSO?
-        client.command_prefix = commands.when_mentioned_or(prefixo) #muda o prefixo dinamicamente para a mensagem #AINDA PRECISO DISSO?
-        if not(text_Admin.get.blacklisted_words(message.content)): # se não for mensagem banida
-            await client.process_commands(message) #continua lendo
-        else: #se for mensagem banida
-            verificar = message.content.split() #parte a mensagem em pedaços
-            if verificar[0] == prefixo+"banWord": #verifica se ela é o comando de banir palavras
-                await client.process_commands(message) #se for, continua lendo
-            else: # se não for, realmente bloqueia a mensagem
-                console.log('badword', message.author) #posso passar True ou False como um ultimo parametro, para mensagem especial
+        client.command_prefix = commands.when_mentioned_or(prefixo)
+        
+        db_add_user(message.author.id, str(message.author))
+        
+        if not(text_Admin.get.blacklisted_words(message.content)):
+            await client.process_commands(message)
+        else:
+            verificar = message.content.split()
+            if verificar[0] == prefixo+"banWord":
+                await client.process_commands(message)
+            else:
+                console.log('badword', message.author)
 
                 try:
                     await message.delete()
@@ -141,32 +224,63 @@ async def on_message(message):
                     print(f"Ocorreu um erro INESPERADO ao tentar apagar a mensagem: {e}")
 
 
-# Custom help command to display help for setprefix command
-class CustomHelpCommand(commands.DefaultHelpCommand):
+class CustomHelpCommand(commands.DefaultHelpCommand): #constrói a classe de help customizada
     def get_command_signature(self, command):
         return f'{self.context.clean_prefix}{command.qualified_name} {command.signature}'
 
     async def send_bot_help(self, mapping):
-        # Override this to customize help for the entire bot
         ctx = self.context
-        embed = discord.Embed(title="Ajuda do Bot", description="Lista de comandos disponíveis:", color=discord.Color.blue())
+        embed = discord.Embed(title="Ajuda do Bot", description=f"Use `{self.context.clean_prefix}help [comando]` para obter ajuda sobre um comando específico.", color=discord.Color.red())
+
         for cog, commands in mapping.items():
             command_list = [command for command in commands if not command.hidden]
             if command_list:
                 command_names = "\n".join([f"`{self.get_command_signature(command)}`" for command in command_list])
                 embed.add_field(name=cog.qualified_name if cog else "Comandos", value=command_names, inline=False)
+
         await ctx.send(embed=embed)
 
     async def send_command_help(self, command):
-        if command.name == "setprefix":
-            embed = discord.Embed(title="Ajuda: setprefix", description="Altera o prefixo de comandos do bot.", color=discord.Color.blue())
-            embed.add_field(name="Uso", value=f"`{self.context.clean_prefix}setprefix <novo_prefixo>`", inline=False)
-            embed.add_field(name="Exemplo", value=f"`{self.context.clean_prefix}setprefix !`", inline=False)
-            embed.add_field(name="Descrição", value="Somente o dono do bot pode alterar o prefixo.", inline=False)
-            await self.context.send(embed=embed)
+        embed = discord.Embed(title=f"Ajuda: {command.qualified_name}", color=discord.Color.red())
+        embed.add_field(name="Uso", value=f"`{self.get_command_signature(command)}`", inline=False)
+
+        if command.help:
+            embed.add_field(name="Descrição", value=command.help, inline=False)
         else:
-            await super().send_command_help(command)
+            embed.add_field(name="Descrição", value="Nenhuma descrição fornecida.", inline=False)
+
+        await self.context.send(embed=embed)
+
+    async def send_cog_help(self, cog):
+        ctx = self.context
+        embed = discord.Embed(title=f"Ajuda do {cog.qualified_name}", description=cog.description, color=discord.Color.red())
+        for command in cog.get_commands():
+            if not command.hidden:
+                embed.add_field(name=self.get_command_signature(command), value=command.short_doc or "Nenhuma descrição fornecida.", inline=False)
+        await ctx.send(embed=embed)
+
+    async def send_group_help(self, group):
+        embed = discord.Embed(title=f"Ajuda: {group.qualified_name}", color=discord.Color.red())
+        embed.add_field(name="Uso", value=f"`{self.get_command_signature(group)}`", inline=False)
+
+        if group.help:
+            embed.add_field(name="Descrição", value=group.help, inline=False)
+
+        subcommands = group.commands
+        if subcommands:
+            for subcommand in subcommands:
+                embed.add_field(name=self.get_command_signature(subcommand), value=subcommand.short_doc or "Nenhuma descrição fornecida.", inline=False)
+
+        await self.context.send(embed=embed)
+
+    async def command_not_found(self, string):
+        raise CommandNotFoundError(string)
+
 
 client.help_command = CustomHelpCommand()
+client.get_command('help').help = 'Exibe informações relacionadas ao comando informado'
+#^^^^^^^^^^^ Configurando mensagem de help personalizada manualmente, e alterando mensagem padrão de {prefixo}help help
 
-client.run(botToken)  # fim da linha, vou ter que rodar, huehuehuehe
+##############
+client.run(botToken)
+##############

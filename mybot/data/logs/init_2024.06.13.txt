@@ -1,0 +1,265 @@
+[2024-06-13 09:52:02] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'OIMARCOS' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 09:52:02
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'xy'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 09:52:02] Loaded extension: src.commands.admin
+[2024-06-13 09:52:02] Loaded extension: src.commands.fun
+[2024-06-13 09:52:02] Loaded extension: src.commands.general
+[2024-06-13 09:52:03] Loaded extension: src.commands.image
+[2024-06-13 09:52:03] Loaded extension: src.commands.moderation
+[2024-06-13 10:00:16] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 10:00:16
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 10:00:16] Loaded extension: src.commands.admin
+[2024-06-13 10:00:16] Loaded extension: src.commands.fun
+[2024-06-13 10:00:16] Loaded extension: src.commands.general
+[2024-06-13 10:00:17] Loaded extension: src.commands.image
+[2024-06-13 10:00:17] Loaded extension: src.commands.moderation
+[2024-06-13 10:01:47] [ERRO] Na execuo de um comando: Command raised an exception: ExtensionNotLoaded: Extension 'src.commands.Moderation' has not been loaded.
+[2024-06-13 10:17:34] [ERRO] Na execuo de um comando: Command raised an exception: TypeError: '<' not supported between instances of 'int' and 'str'
+[2024-06-13 10:19:34] [ERRO] Na execuo de um comando: Command raised an exception: TypeError: '<' not supported between instances of 'int' and 'str'
+[2024-06-13 10:20:35] [ERRO] Na execuo de um comando: Command raised an exception: TypeError: '<' not supported between instances of 'int' and 'str'
+[2024-06-13 10:21:38] [ERRO] Na execuo de um comando: Command raised an exception: Forbidden: 403 Forbidden (error code: 50013): Missing Permissions
+[2024-06-13 10:30:10] [ERRO] Na execuo de um comando: Command raised an exception: ExtensionNotLoaded: Extension 'src.commands.all' has not been loaded.
+[2024-06-13 10:33:47] [30m| [34m2024-06-13 [30m| [34m10:33:47 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 10:34:08] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 10:34:08
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 10:34:08] Loaded extension: src.commands.admin
+[2024-06-13 10:34:08] Loaded extension: src.commands.fun
+[2024-06-13 10:34:08] Loaded extension: src.commands.general
+[2024-06-13 10:34:09] Loaded extension: src.commands.image
+[2024-06-13 10:34:09] Loaded extension: src.commands.moderation
+[2024-06-13 10:44:37] [30m| [34m2024-06-13 [30m| [34m10:44:37 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 10:46:08] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 10:46:08
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 10:46:08] Loaded extension: src.commands.admin
+[2024-06-13 10:46:08] Loaded extension: src.commands.fun
+[2024-06-13 10:46:08] Loaded extension: src.commands.general
+[2024-06-13 10:46:09] Loaded extension: src.commands.image
+[2024-06-13 10:46:09] Loaded extension: src.commands.moderation
+[2024-06-13 10:49:27] [30m| [34m2024-06-13 [30m| [34m10:49:27 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 10:50:56] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 10:50:56
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 10:50:56] Loaded extension: src.commands.admin
+[2024-06-13 10:50:56] Loaded extension: src.commands.fun
+[2024-06-13 10:50:56] Loaded extension: src.commands.general
+[2024-06-13 10:50:56] Loaded extension: src.commands.image
+[2024-06-13 10:50:56] Loaded extension: src.commands.moderation
+[2024-06-13 10:51:07] [ERRO] Na execuo de um comando: Command raised an exception: HTTPException: 400 Bad Request (error code: 50006): Cannot send an empty message
+[2024-06-13 10:53:02] [30m| [34m2024-06-13 [30m| [34m10:53:02 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 10:53:13] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 10:53:13
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 10:53:13] Loaded extension: src.commands.admin
+[2024-06-13 10:53:13] Loaded extension: src.commands.fun
+[2024-06-13 10:53:13] Loaded extension: src.commands.general
+[2024-06-13 10:53:14] Loaded extension: src.commands.image
+[2024-06-13 10:53:14] Loaded extension: src.commands.moderation
+[2024-06-13 10:53:21] [ERRO] Na execuo de um comando: Command raised an exception: NameError: name 'asyncio' is not defined
+[2024-06-13 10:54:22] [30m| [34m2024-06-13 [30m| [34m10:54:22 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 10:54:33] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 10:54:33
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 10:54:33] Loaded extension: src.commands.admin
+[2024-06-13 10:54:33] Loaded extension: src.commands.fun
+[2024-06-13 10:54:33] Loaded extension: src.commands.general
+[2024-06-13 10:54:34] Loaded extension: src.commands.image
+[2024-06-13 10:54:34] Loaded extension: src.commands.moderation
+[2024-06-13 10:54:48] [ERRO] Na execuo de um comando: Command raised an exception: HTTPException: 400 Bad Request (error code: 50006): Cannot send an empty message
+[2024-06-13 10:57:30] [30m| [34m2024-06-13 [30m| [34m10:57:30 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 11:04:51] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 11:04:51
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 11:04:51] Loaded extension: src.commands.admin
+[2024-06-13 11:04:51] Loaded extension: src.commands.fun
+[2024-06-13 11:04:51] Loaded extension: src.commands.general
+[2024-06-13 11:04:52] Loaded extension: src.commands.image
+[2024-06-13 11:04:52] Loaded extension: src.commands.moderation
+[2024-06-13 11:05:50] [ERRO] Na execuo de um comando: Command raised an exception: HTTPException: 400 Bad Request (error code: 50006): Cannot send an empty message
+[2024-06-13 11:10:18] [30m| [34m2024-06-13 [30m| [34m11:10:18 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 11:11:21] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 11:11:21
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 11:11:21] Loaded extension: src.commands.admin
+[2024-06-13 11:11:21] Loaded extension: src.commands.fun
+[2024-06-13 11:11:21] Loaded extension: src.commands.general
+[2024-06-13 11:11:22] Loaded extension: src.commands.image
+[2024-06-13 11:11:22] Loaded extension: src.commands.moderation
+[2024-06-13 11:20:12] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 11:20:12
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 11:20:12] Loaded extension: src.commands.admin
+[2024-06-13 11:20:12] Loaded extension: src.commands.fun
+[2024-06-13 11:20:13] Loaded extension: src.commands.general
+[2024-06-13 11:20:13] Loaded extension: src.commands.image
+[2024-06-13 11:20:13] Loaded extension: src.commands.moderation
+[2024-06-13 11:29:42] [30m| [34m2024-06-13 [30m| [34m11:29:42 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 11:29:54] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 11:29:54
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 11:29:54] Loaded extension: src.commands.admin
+[2024-06-13 11:29:54] Loaded extension: src.commands.fun
+[2024-06-13 11:29:54] Loaded extension: src.commands.general
+[2024-06-13 11:29:55] Loaded extension: src.commands.image
+[2024-06-13 11:29:55] Loaded extension: src.commands.moderation
+[2024-06-13 11:33:10] [30m| [34m2024-06-13 [30m| [34m11:33:10 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 11:38:40] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 11:38:40
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 11:38:40] Loaded extension: src.commands.admin
+[2024-06-13 11:38:40] Loaded extension: src.commands.fun
+[2024-06-13 11:38:40] Loaded extension: src.commands.general
+[2024-06-13 11:38:41] Loaded extension: src.commands.image
+[2024-06-13 11:38:41] Loaded extension: src.commands.moderation
+[2024-06-13 11:40:33] [30m| [34m2024-06-13 [30m| [34m11:40:33 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 11:43:52] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 11:43:52
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 11:43:52] Loaded extension: src.commands.admin
+[2024-06-13 11:43:52] Loaded extension: src.commands.fun
+[2024-06-13 11:43:53] Loaded extension: src.commands.general
+[2024-06-13 11:43:53] Loaded extension: src.commands.image
+[2024-06-13 11:43:53] Loaded extension: src.commands.moderation
+[2024-06-13 11:46:39] [30m| [34m2024-06-13 [30m| [34m11:46:39 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 11:46:59] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 11:46:59
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 11:46:59] Loaded extension: src.commands.admin
+[2024-06-13 11:46:59] Loaded extension: src.commands.fun
+[2024-06-13 11:46:59] Loaded extension: src.commands.general
+[2024-06-13 11:47:00] Loaded extension: src.commands.image
+[2024-06-13 11:47:00] Loaded extension: src.commands.moderation
+[2024-06-13 11:54:23] [30m| [34m2024-06-13 [30m| [34m11:54:23 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 11:54:34] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 11:54:34
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 11:54:34] Loaded extension: src.commands.admin
+[2024-06-13 11:54:34] Loaded extension: src.commands.fun
+[2024-06-13 11:54:34] Loaded extension: src.commands.general
+[2024-06-13 11:54:35] Loaded extension: src.commands.image
+[2024-06-13 11:54:35] Loaded extension: src.commands.moderation
+[2024-06-13 12:02:59] [30m| [34m2024-06-13 [30m| [34m12:02:59 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m
+[2024-06-13 12:03:07] [31m===============================================================
+[93m         Crditos: Fumiko0701, aka CT 
+[31m===============================================================
+[37m'CRUD' [92miniciado com sucesso!
+[36mData de inicializao: 2024-06-13
+Hora de inicializao: 12:03:07
+
+[37mEste bot est pronto para [37mresponder aos comandos usando o prefixo: 'c!'. [33mFique  vontade para explorar suas funcionalidades.
+[31m===============================================================
+[0m
+[2024-06-13 12:03:07] Loaded extension: src.commands.admin
+[2024-06-13 12:03:07] Loaded extension: src.commands.fun
+[2024-06-13 12:03:07] Loaded extension: src.commands.general
+[2024-06-13 12:03:08] Loaded extension: src.commands.image
+[2024-06-13 12:03:08] Loaded extension: src.commands.moderation
+[2024-06-13 12:03:31] [ERRO] Na execuo de um comando: Command raised an exception: ExtensionNotFound: Extension 'src.commands.teste' could not be loaded.
+[2024-06-13 12:03:57] [30m| [34m2024-06-13 [30m| [34m12:03:57 [30m| [32m#[[93mSISTEMA[32m]# [33mPedido de desligamento recebido! Desligando...[0m

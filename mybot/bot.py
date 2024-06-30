@@ -39,7 +39,7 @@ def iniciar_db():
     
     conn.commit()
     conn.close()
-
+#EM TESTE
 def db_add_user(user_id, user_name):
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
@@ -51,6 +51,9 @@ def db_add_user(user_id, user_name):
     conn.close()
 
 def is_bot_owner():
+    """
+    Função decorada que verifica se o usuario é o dono do bot
+    """
     async def predicate(ctx):
         if ctx.author.id != ctx.bot.owner_id:
             raise commands.NotOwner("Apenas o proprietário do bot pode usar este comando.")
@@ -59,6 +62,9 @@ def is_bot_owner():
 
 @client.event
 async def on_ready():
+    """
+    Detecta o momento de inicialização do Bot, aciona gatilho de logs e carrega os pacotes de comandos!
+    """
     iniciar_db()
     await client.tree.sync()
     console.start(settings)
@@ -80,6 +86,7 @@ class CommandNotFoundError(commands.CommandError):
 
 @client.event
 async def on_command_error(ctx, error):
+    """Evento que recebe todas as chamadas de erro das mensagems, caso o proprio comando não possua um tratamento de erros"""
     if isinstance(error, CommandNotFoundError):
         message = await ctx.send(f"🫠 **Comando não encontrado**. Use __**{prefixo}menu**__ para ver a lista de comandos disponíveis.")
         await asyncio.sleep(10)
@@ -131,22 +138,30 @@ async def on_command_error(ctx, error):
         await asyncio.sleep(10)
         await message.delete()
 
-
 @client.command(hidden=True)
 @is_bot_owner()
 async def load(ctx, extension):
+    """
+    Carrega uma extensão
+    """
     await client.load_extension(f'src.commands.{extension}')
     await ctx.send(f'{extension} carregado.')
 
 @client.command(hidden=True)
 @is_bot_owner()
 async def unload(ctx, extension):
+    """
+    Descarrega uma extensão
+    """
     await client.unload_extension(f'src.commands.{extension}')
     await ctx.send(f'{extension} descarregado.')
 
 @client.command(hidden=True)
 @is_bot_owner()
 async def reload(ctx, extension):
+    """
+    Recarrega uma extensão
+    """
     await client.reload_extension(f'src.commands.{extension}')
     nomeCapitalized = extension.capitalize()
     await ctx.send(f'Olá papis! O pacote **{nomeCapitalized}** foi recarregado.')
@@ -154,6 +169,9 @@ async def reload(ctx, extension):
 @client.command(hidden=True)
 @is_bot_owner()
 async def sleep(ctx):
+    """
+    Chama o metodo bot.close()
+    """
     success, response = await console.sleep(ctx)
     await ctx.send(response)
     if success:
@@ -164,7 +182,7 @@ async def setprefix(ctx, prefix: str):
     """
     Altera o prefixo do bot para esse servidor.
 
-    **Restrições:**
+    Restrições:
     - Apenas membros com a permissão ||Administrador|| podem usar.
     """
     uid = ctx.author.id
@@ -196,8 +214,10 @@ async def list_users(ctx):
 
 @client.event
 async def on_message(message):
+    """
+    Evento que detecta mensagems que o bot pode ler
+    """
     global prefixo
-
     if message.author.bot:
         return
 

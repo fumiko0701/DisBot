@@ -8,6 +8,9 @@ from data.static.CONSOLE_RESPONSE import Console
 console = Console()
 
 async def load_all(bot: commands.Bot):
+    """
+    Carrega todas as extensões, principalmente utilizado na inicialização do bot.py
+    """
     commands_dir = os.path.join(os.path.dirname(__file__), 'commands')
     for filename in os.listdir(commands_dir):
         if filename.endswith('.py') and not filename.startswith('__'):

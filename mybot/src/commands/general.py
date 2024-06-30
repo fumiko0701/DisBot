@@ -16,6 +16,8 @@ class General(commands.Cog):
     @commands.command()
     async def menu(self, ctx):
         """
+        In-built command
+        
         Envia a página de inicialização e de controle do bot.
         """
         embedMenu, viewMenu = await cmdata.menu(self.bot, settings['prefix'], ctx=ctx)

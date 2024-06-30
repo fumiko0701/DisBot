@@ -11,18 +11,28 @@ class Admin(commands.Cog):
 
 
     @commands.command()
-    async def addrole(self, ctx, member: discord.Member, role: discord.Role):
+    async def addrole(self, ctx, membro: discord.Member, cargo: discord.Role):
+        """
+        In-built command
+
+        Adiciona um cargo do servidor fornecido ao membro fornecido.
+        """
         if ctx.author.guild_permissions.manage_roles:
-            await member.add_roles(role)
-            await ctx.send(f'{role.name} foi adicionado a {member.mention}')
+            await membro.add_roles(cargo)
+            await ctx.send(f'{cargo.name} foi adicionado a {membro.mention}')
         else:
             await ctx.send("Você não tem permissão para usar este comando.")
 
     @commands.command()
-    async def removerole(self, ctx, member: discord.Member, role: discord.Role):
+    async def removerole(self, ctx, membro: discord.Member, cargo: discord.Role):
+        """
+        In-built command
+
+        Remove um cargo do servidor inserido do membro fornecido.
+        """
         if ctx.author.guild_permissions.manage_roles:
-            await member.remove_roles(role)
-            await ctx.send(f'{role.name} foi removido de {member.mention}')
+            await membro.remove_roles(cargo)
+            await ctx.send(f'{cargo.name} foi removido de {membro.mention}')
         else:
             await ctx.send("Você não tem permissão para usar este comando.")
 

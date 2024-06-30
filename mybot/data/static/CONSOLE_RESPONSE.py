@@ -13,6 +13,9 @@ ownerID = settings['ownerID']
 class Console:
     """Instância responsável pela gestão do terminal e pela documentação dos processos ocorridos durante a execução e possíveis erros..."""
     def __init__(self):
+        """
+        Atribuições iniciais da classe.
+        """
         self.start = self.Hello_World
         self.log = self.changelog
         self.runlog = self.write_to_log
@@ -104,7 +107,7 @@ class Console:
 
 
     def write_to_log(self, message):
-        """Escreve a mensagem no arquivo de log."""
+        """aka runlog. Escreve a mensagem no arquivo de log."""
         message_cleaned = self.clean_message(message)
         log_file_path = os.path.join(self.log_directory, f"init_{datetime.now().strftime('%Y.%m.%d')}.txt")
         with open(log_file_path, 'a', encoding='utf-8') as log_file:

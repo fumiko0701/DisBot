@@ -3,6 +3,11 @@ import os
 
 
 def get_settings():
+    """
+    In-built function
+
+    Register: Get the current settings.json file of the selectioned workspace
+    """
     root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
     caminho_settings = os.path.join(root_dir, 'data', 'static', 'settings.json')
     with open(caminho_settings, 'r') as settings_file:
@@ -16,6 +21,11 @@ console = Console()
 
 # TODO: CÓDIGO DE MUDAR AS CONFIGURAÇÕES DEVERÁ SER FEITO NESSA PÁGINA
 def setPrefix(prefix, uid, ownerID):
+    """
+    In-built function
+
+    Register: changes the current prefix key data in the settings.json file of the selectioned workspace
+    """
     if uid == ownerID:
         old_prefix = getPrefix()
         try:
@@ -37,6 +47,11 @@ def setPrefix(prefix, uid, ownerID):
 
 
 def getPrefix():
+    """
+    In-built function
+
+    Response: Gets the current prefix key data in the settings.json file of the selectioned workspace
+    """
     """Obtem o prefixo atual do Bot, salvo através da settings.json"""
     caminho_arquivo = os.path.join(os.path.dirname(__file__), 'settings.json')
     with open(caminho_arquivo, 'r') as settings_file:

@@ -6,6 +6,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 
 class BotApp(ttk.Window):
+    """JANELA RAIZ DA APLICAÇÃO"""
     def __init__(self):
         super().__init__(themename="darkly")
 

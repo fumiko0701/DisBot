@@ -28,6 +28,9 @@ class TEXT_admin:
                 if (String): return bool
             """
             def carregar_palavras_ofensivas():
+                """
+                Busca pelo arquivo blacklisted_words.json e retorna uma lista de palavras banidas
+                """
                 try:
                     caminho_arquivo = os.path.join(os.path.dirname(__file__), '../../data/blacklisted_words.json')
                     with open(caminho_arquivo, 'r') as blcklistwords:
@@ -62,6 +65,9 @@ class TEXT_admin:
         """Salva um valor ou efetua uma alteração em uma instância passada atráves de uma função predefinida..."""
         @staticmethod
         def blacklisted_word(palavras, nova_palavra, uid=None):
+            """
+            Adiciona uma palavra fornecida na lista de palavras proibidas, através da leitura e sobreescrita no arquivo blacklisted_words.json
+            """
             #adicionar na lista
             palavraAddNaLista = nova_palavra.lower()
             palavras.append(palavraAddNaLista)

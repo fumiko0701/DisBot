@@ -19,6 +19,9 @@ ANSI_COLORS = {
 }
 
 class BotApp(ttk.Window):
+    """
+    Janela de controle de um arquivo bot.py fornecido no workspace selecionado atual. (SUBJANELA DA APLICAÇÃO)
+    """
     def __init__(self, directory, bot_name):
         super().__init__(themename="darkly")
         self.title(f"Executando {bot_name}")

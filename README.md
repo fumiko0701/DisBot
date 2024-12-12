@@ -12,7 +12,7 @@ EasyBot é um projeto desenvolvido para automatizar a criação e o gerenciament
 
 1. Clone o repositório para sua máquina local.
 2. Instale as dependências necessárias usando `pip install -r requirements.txt`.
-3. Configure seu bot editando o arquivo `settings.json` dentro da pasta "data" com suas preferências.
+3. Configure seu bot editando o arquivo `settings.json` dentro da pasta "data/static" com suas preferências.
 4. Execute o bot com o comando `python main.py` no terminal.
 
 Para mais detalhes, ou sugestões entre em contato comigo através do meu email: zx3rainbow@gmail.com.

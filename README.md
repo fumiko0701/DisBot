@@ -1,4 +1,4 @@
-# EasyBot
+# EasyBot (NÃO FINALIZADO, AINDA EM FASE DE DESENVOLVIMENTO)
 
 EasyBot é um projeto desenvolvido para automatizar a criação e o gerenciamento de bots para Discord usando Python. Este README fornece uma visão geral das funcionalidades do projeto e como utilizá-lo.
 

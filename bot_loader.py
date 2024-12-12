@@ -7,10 +7,8 @@ import re
 import os
 import sys
 import psutil
-from datetime import datetime, timedelta #contagem
- 
+from datetime import datetime
 
-# Mapeamento de sequências de escape ANSI para cores tkinter
 ANSI_COLORS = {
     '30': 'black', '31': 'red', '32': 'green', '33': 'yellow',
     '34': 'blue', '35': 'magenta', '36': 'cyan', '37': 'white',
@@ -19,95 +17,64 @@ ANSI_COLORS = {
 }
 
 class BotApp(ttk.Window):
-    """
-    Janela de controle de um arquivo bot.py fornecido no workspace selecionado atual. (SUBJANELA DA APLICAÇÃO)
-    """
     def __init__(self, directory, bot_name):
         super().__init__(themename="darkly")
         self.title(f"Executando {bot_name}")
         self.geometry("800x600")
-        
 
-        # Adiciona este bloco
-        # Obtém a resolução da tela
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
-
-        # Calcula a posição central
         window_width = 800
         window_height = 600
         position_right = int(screen_width / 2 - window_width / 2)
         position_down = int(screen_height / 2 - window_height / 2)
-
-        # Define a geometria da janela usando a posição central
         self.geometry(f"{window_width}x{window_height}+{position_right}+{position_down}")
-        # Fim do bloco adicionado
 
-        self.directory = directory  # Armazena o diretório do projeto selecionado
-        
-        # Cria um frame para centralizar os widgets
+        self.directory = directory
+
         frame = ttk.Frame(self)
         frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        
-        # Configura a área de texto com fundo preto
+
         self.text_area = ScrolledText(frame, wrap=WORD, state=DISABLED, bg="black", fg="white", insertbackground="white", width=80, height=20)
         self.text_area.pack(pady=20)
-        
-        # Botão para iniciar o bot
+
         self.start_button = ttk.Button(frame, text="Start Bot", bootstyle=SUCCESS, command=self.start_bot)
         self.start_button.pack(side=LEFT, padx=5, pady=10)
 
-        # Botão para parar o bot
         self.stop_button = ttk.Button(frame, text="Stop", bootstyle=DANGER, command=self.stop_bot, state=DISABLED)
         self.stop_button.pack(side=LEFT, padx=5, pady=10)
 
-        # Lista para armazenar mensagens de erro
         self.error_output = []
-        # Variável para armazenar o processo do bot
         self.proc = None
-    
-            # Adicionando a legenda para o tempo de execução =================================
+
         self.runtime_label = ttk.Label(self, text="Tempo de execução: 00:00:00", foreground="white")
         self.runtime_label.place(relx=0.5, rely=0.05, anchor=CENTER)
-        self.start_time = None  # Hora de início da execução do bot
+        self.start_time = None
         self.update_runtime()
 
-    
     def update_runtime(self):
-        # Atualiza o tempo de execução
         if self.start_time is not None:
             elapsed_time = datetime.now() - self.start_time
-            formatted_time = str(elapsed_time).split('.')[0]  # Ignora os milissegundos
+            formatted_time = str(elapsed_time).split('.')[0]
             self.runtime_label.config(text=f"Tempo de execução: {formatted_time}")
-        self.after(1000, self.update_runtime)  # Atualiza a cada segundo
-
+        self.after(1000, self.update_runtime)
 
     def start_bot(self):
-        # Limpa a área de texto
         self.clear_text()
-        
-        # Desativa o botão de início enquanto o bot está em execução
         self.start_button.config(state=DISABLED)
-        # Ativa o botão de parada
         self.stop_button.config(state=NORMAL)
-        
-        # Caminho do diretório base do projeto
+
         base_dir = self.directory
-
-        # Caminho do script do bot
         bot_script = os.path.join(base_dir, 'bot.py')
-
-        # Caminho do ambiente virtual na pasta raiz do projeto
         project_root = os.path.abspath(os.path.join(base_dir, '..'))
 
-        if os.name == 'nt':  # Windows
+        if os.name == 'nt':
             activate_env = os.path.join(project_root, '.venv', 'Scripts', 'activate.bat')
             command = f'cmd.exe /c ""{activate_env}" && python -u "{bot_script}""'
-        else:  # macOS/Linux
+        else:
             activate_env = os.path.join(project_root, '.venv', 'bin', 'activate')
             command = f'bash -c "source \'{activate_env}\' && python -u \'{bot_script}\'"'
 
-        # Verifica se o ambiente virtual e o script do bot existem
         if not os.path.exists(activate_env):
             self.append_text(f"\nO ambiente virtual não foi encontrado: {activate_env}\n", stderr=True)
             return
@@ -116,50 +83,41 @@ class BotApp(ttk.Window):
             self.append_text(f"\nO script do bot não foi encontrado: {bot_script}\n", stderr=True)
             return
 
-        # Inicia o processo do bot.py
         self.proc = subprocess.Popen(
             command,
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE, 
-            bufsize=1, 
-            text=True, 
-            shell=True, 
-            encoding='utf-8', 
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            bufsize=1,
+            text=True,
+            shell=True,
+            encoding='utf-8',
             errors='ignore'
         )
-        
-        # Cria threads para ler stdout e stderr
+
         self.stdout_thread = threading.Thread(target=self.stream_output, args=(self.proc.stdout, "stdout"))
         self.stderr_thread = threading.Thread(target=self.stream_output, args=(self.proc.stderr, "stderr", self.error_output))
-        
-        # Inicia as threads
+
         self.stdout_thread.start()
         self.stderr_thread.start()
-        
-        # Cria uma thread para esperar o processo terminar
+
         self.wait_thread = threading.Thread(target=self.wait_for_process)
         self.wait_thread.start()
 
-        self.start_time = datetime.now() #contagem
+        self.start_time = datetime.now()
 
     def stop_bot(self):
         if self.proc:
-            # Força o término imediato do processo do bot e seus subprocessos
             process = psutil.Process(self.proc.pid)
             for proc in process.children(recursive=True):
                 proc.kill()
             process.kill()
             self.append_text("Parada solicitada!", stderr=True)
-            # Limpa o processo
             self.proc = None
 
-            # Aguarda a conclusão das threads
             self.stdout_thread.join()
             self.stderr_thread.join()
-            
-            # Reativa o botão de início após a conclusão do bot
+
             self.start_button.config(state=NORMAL)
-            # Desativa o botão de parada
             self.stop_button.config(state=DISABLED)
 
         self.start_time = None
@@ -173,20 +131,16 @@ class BotApp(ttk.Window):
                     output_list.append(line)
                 self.append_text(line, stderr=True)
         stream.close()
-    
+
     def append_text(self, text, stderr=False):
-        # Configura a área de texto para permitir edição
         self.text_area.config(state=NORMAL)
-        
-        # Remove e captura as sequências de escape ANSI
         parts = re.split(r'(\x1B\[[0-9;]*m)', text)
         tag = None
-        
+
         for part in parts:
             if re.match(r'\x1B\[[0-9;]*m', part):
-                # Sequência de escape ANSI
                 codes = part[2:-1].split(';')
-                if '0' in codes:  # Reset/Normal
+                if '0' in codes:
                     tag = None
                 else:
                     for code in codes:
@@ -194,43 +148,30 @@ class BotApp(ttk.Window):
                             tag = code
                             self.text_area.tag_config(tag, foreground=ANSI_COLORS[code])
             else:
-                # Texto normal
                 self.text_area.insert(END, part, (tag,))
-        
-        # Adiciona linha ao final
+
         self.text_area.insert(END, "\n")
-        
-        # Desativa a edição novamente
         self.text_area.see(END)
         self.text_area.config(state=DISABLED)
 
     def clear_text(self):
-        # Configura a área de texto para permitir edição
         self.text_area.config(state=NORMAL)
-        # Limpa o conteúdo da área de texto
         self.text_area.delete(1.0, END)
-        # Desativa a edição novamente
         self.text_area.config(state=DISABLED)
-    
+
     def wait_for_process(self):
-        # Espera o processo terminar e as threads completarem
         self.proc.wait()
         self.stdout_thread.join()
         self.stderr_thread.join()
-        
-        # Reativa o botão de início após a conclusão do bot
+
         self.start_button.config(state=NORMAL)
-        
-        # Desativa o botão de parada
         self.stop_button.config(state=DISABLED)
-        
-        # Verifica se o processo ainda existe antes de acessar `returncode`
+
         if self.proc and self.proc.returncode == 0:
-            self.start_time = None #finaliza contagem
+            self.start_time = None
             self.append_text("\nO bot.py foi executado com sucesso!\n")
         elif self.proc:
             self.append_text("\nO bot.py encontrou um erro durante a execução.\n", stderr=True)
-            # Mostra as mensagens de erro capturadas
             for error in self.error_output:
                 self.append_text(error, stderr=True)
 
@@ -238,7 +179,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Uso: python bot_loader.py <diretório> <nome_do_bot>")
         sys.exit(1)
-    
+
     directory = sys.argv[1]
     bot_name = sys.argv[2]
 
